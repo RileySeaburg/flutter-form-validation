@@ -4,14 +4,18 @@
 // https://opensource.org/licenses/MIT
 
 import 'package:flutter/material.dart';
+import '../mixins/validation_mixin.dart';
 
 class LoginScreen extends StatefulWidget {
   createState() {
     return LoginScreenState();
   }
 }
-
-class LoginScreenState extends State<LoginScreen> {
+/// Copyright (c) 2022 Evolving Software Corporation
+/// LoginScreenState is a stateful widget that contains the state of the login screen.
+/// It is a stateful widget because it needs to keep track of the user's input.
+/// It also contains the logic for validating the user's input using a ValidationMixin.
+class LoginScreenState extends State<LoginScreen> with ValidationMixin{
 
   final _formKey = GlobalKey<FormState>();
   String password = '';
@@ -46,13 +50,7 @@ class LoginScreenState extends State<LoginScreen> {
         border: OutlineInputBorder(),
         hintText: 'Enter your email ex: you@example.com',
       ),
-      validator: ( value) {
-        // return null if the value is valid
-        if (!value!.contains('@')) {
-          return 'Please enter a valid email address';
-        }
-        return null;
-      },
+      validator: validateEmail,
       onSaved: ( value) {
         email = value!;
       },
@@ -71,13 +69,7 @@ class LoginScreenState extends State<LoginScreen> {
           border: OutlineInputBorder(),
           hintText: 'Enter your password',
         ),
-        validator: ( value) {
-          // return null if the value is valid
-          if (value!.length < 6) {
-            return 'Please enter a valid password';
-          }
-          return null;
-        },
+        validator: validatePassword,
         onSaved: ( value) {
           password = value!;
         },
